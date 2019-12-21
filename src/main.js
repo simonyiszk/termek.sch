@@ -1,18 +1,19 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import App from "./App.vue";
-import HelloWorld from "./components/HelloWorld.vue";
+import Main from "./components/Main.vue";
 import Room from "./components/Room.vue";
-import vuetify from './plugins/vuetify';
+import Item from "./components/Item.vue";
+import vuetify from "./plugins/vuetify";
 
 Vue.config.productionTip = false;
 
 Vue.use(VueRouter);
 
 const routes = [
-  { path: "/foo", component: HelloWorld },
-  { path: "/bar", component: HelloWorld },
-  { path: "/", component: Room }
+  { path: "/eszkoz", component: Item },
+  { path: "/terem", component: Room },
+  { path: "/", component: Main }
 ];
 
 const router = new VueRouter({
