@@ -1,4 +1,4 @@
-# termekvue
+# termek sch website
 
 ## Project setup
 ```
