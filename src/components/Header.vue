@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-toolbar app color="simonyi" dark fixed>
-      <v-toolbar-title>Toolbar Mobile Menu</v-toolbar-title>
+    <v-toolbar app color="simonyi" dark fixed elevation="0">
+      <v-img @click="toHome" src="../assets/simonyi_white.svg" max-width="20%"></v-img>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down mr-n4">
         <v-btn
@@ -39,10 +39,14 @@ export default {
       { title: "Terembérlés", link: "/terem" },
       { title: "Eszközbérlés", link: "/eszkoz" }
     ]
-  })
+  }),
+  methods: {
+    toHome() {
+      this.$router.push("/");
+    }
+  }
 };
 </script>
 
 <style scoped>
-
 </style>
