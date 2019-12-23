@@ -1,14 +1,21 @@
 <template>
   <div>
-    <v-toolbar app color="simonyi" dark fixed elevation="0">
-      <v-img @click="toHome" src="../assets/simonyi_white.svg" max-width="20%"></v-img>
+    <v-toolbar app color="gray" dark fixed elevation="0">
+      <div class="d-flex align-center">
+        <v-img
+          alt="Vuetify Logo"
+          src="../assets/simonyi_white.svg"
+          :width="calcLogo()"
+          @click="toHome"
+        />
+      </div>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down mr-n4">
         <v-btn
           v-for="(item, index) in menu"
           :key="index"
           :to="item.link"
-          color="simonyi"
+          color="gray"
           elevation="0"
         >
           {{
@@ -43,6 +50,9 @@ export default {
   methods: {
     toHome() {
       this.$router.push("/");
+    },
+    calcLogo() {
+      return this.$vuetify.breakpoint.smAndDown ? 150 : 250;
     }
   }
 };
