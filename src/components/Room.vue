@@ -19,15 +19,20 @@
         </v-card>
       </v-tab-item>
     </v-tabs>
-    <v-btn absolute dark fab large bottom right color="simonyi" style="bottom: 16px;">
-      <v-icon>mdi-plus</v-icon>
-    </v-btn>
+    <Roommodal v-slot="{on}">
+      <v-btn absolute dark fab large bottom right color="simonyi" style="bottom: 16px;" v-on="on">
+        <v-icon>mdi-plus</v-icon>
+      </v-btn>
+    </Roommodal>
   </div>
 </template>
 
 <script>
+import Roommodal from "./Roommodal";
+
 export default {
   name: "Room",
+  components: { Roommodal },
   data() {
     return {
       tab: null,
