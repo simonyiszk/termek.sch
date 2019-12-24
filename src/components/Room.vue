@@ -19,6 +19,9 @@
         </v-card>
       </v-tab-item>
     </v-tabs>
+    <v-btn absolute dark fab large bottom right color="simonyi" style="bottom: 16px;">
+      <v-icon>mdi-plus</v-icon>
+    </v-btn>
   </div>
 </template>
 
