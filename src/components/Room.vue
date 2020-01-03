@@ -19,7 +19,7 @@
         </v-card>
       </v-tab-item>
     </v-tabs>
-    <Roommodal v-slot="{on}">
+    <Roommodal v-slot="{on}" :roomName="tab">
       <v-btn absolute dark fab large bottom right color="simonyi" style="bottom: 16px;" v-on="on">
         <v-icon>mdi-plus</v-icon>
       </v-btn>
@@ -35,7 +35,7 @@ export default {
   components: { Roommodal },
   data() {
     return {
-      tab: null,
+      tab: "102",
       centered: true,
       grow: true,
       tabs: [

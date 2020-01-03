@@ -5,7 +5,7 @@
     </template>
     <v-card>
       <v-card-title>
-        <span class="headline">Teremfoglalás - {{tab}}</span>
+        <span class="headline">Teremfoglalás - {{roomName}}</span>
       </v-card-title>
       <v-card-text>
         <v-container>
@@ -54,12 +54,17 @@
 </template>
 
 <script>
+import VueTypes from "vue-types";
+
 export default {
   name: "Roommodal",
   data() {
     return {
       dialog: false
     };
+  },
+  props: {
+    roomName: VueTypes.string.isRequired
   }
 };
 </script>
