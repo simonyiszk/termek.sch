@@ -18,8 +18,9 @@
                 label="Kezdés időpontja*"
                 clearText="Mégse"
                 color="simonyi"
-                :datePickerProps="{'color': 'simonyi', 'first-day-of-week': '1', 'locale': 'hu-HU', 'scrollable': true}"
-                :timePickerProps="{'color': 'simonyi', 'format': '24hr', 'allowed-minutes': allowedStep}"
+                dateFormat="yyyy.MM.dd."
+                :datePickerProps="{'color': 'simonyi', 'no-title': true, 'first-day-of-week': '1', 'locale': 'hu-HU', 'scrollable': true}"
+                :timePickerProps="{'color': 'simonyi', 'no-title': true, 'format': '24hr', 'allowed-minutes': allowedStep}"
                 required
               ></v-datetime-picker>
             </v-col>

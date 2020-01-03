@@ -20,6 +20,10 @@
 
     <v-card>
       <v-card-text class="px-0 py-0">
+        <v-card dark class="datetime-title px-5 py-5 d-flex justify-space-between" tile color="simonyi">
+          <div>{{formattedDate}}</div>
+          <div>{{formattedTime}}</div>
+        </v-card>
         <v-tabs fixed-tabs v-model="activeTab" :color="color">
           <v-tab key="calendar">
             <slot name="dateIcon">
@@ -64,7 +68,7 @@
 <script>
 import { format, parse } from "date-fns";
 
-const DEFAULT_DATE = "";
+const DEFAULT_DATE = new Date().toISOString().slice(0, 10);
 const DEFAULT_TIME = "00:00:00";
 const DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
 const DEFAULT_TIME_FORMAT = "HH:mm:ss";
@@ -145,6 +149,16 @@ export default {
     defaultDateTimeFormat() {
       return DEFAULT_DATE_FORMAT + " " + DEFAULT_TIME_FORMAT;
     },
+    formattedDate() {
+      return this.selectedDatetime
+        ? format(this.selectedDatetime, this.dateFormat)
+        : "";
+    },
+    formattedTime() {
+      return this.selectedDatetime
+        ? format(this.selectedDatetime, this.timeFormat)
+        : "";
+    },
     formattedDatetime() {
       return this.selectedDatetime
         ? format(this.selectedDatetime, this.dateTimeFormat)
@@ -170,7 +184,6 @@ export default {
       if (!this.datetime) {
         return;
       }
-
       let initDateTime;
       if (this.datetime instanceof Date) {
         initDateTime = this.datetime;
@@ -220,3 +233,9 @@ export default {
   }
 };
 </script>
+<style scoped>
+.datetime-title {
+  font-size: 2rem;
+  font-weight: bold;
+}
+</style>
