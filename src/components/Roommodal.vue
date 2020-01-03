@@ -10,13 +10,20 @@
       <v-card-text>
         <v-container>
           <v-row>
-            <v-col cols="12" sm="6" md="4">
-              <v-text-field label="Legal first name*" required></v-text-field>
+            <v-col cols="12">
+              <v-text-field label="Esemény neve*" required></v-text-field>
             </v-col>
-            <v-col cols="12" sm="6" md="4">
-              <v-text-field label="Legal middle name" hint="example of helper text only on focus"></v-text-field>
+            <v-col cols="12" sm="6">
+              <v-datetime-picker
+                label="Kezdés időpontja*"
+                clearText="Mégse"
+                color="simonyi"
+                :datePickerProps="{'color': 'simonyi', 'first-day-of-week': '1', 'locale': 'hu-HU', 'scrollable': true}"
+                :timePickerProps="{'color': 'simonyi', 'format': '24hr', 'allowed-minutes': allowedStep}"
+                required
+              ></v-datetime-picker>
             </v-col>
-            <v-col cols="12" sm="6" md="4">
+            <v-col cols="12" sm="6">
               <v-text-field
                 label="Legal last name*"
                 hint="example of persistent helper text"
@@ -60,8 +67,12 @@ export default {
   name: "Roommodal",
   data() {
     return {
-      dialog: false
+      dialog: false,
+      nowDate: new Date().toISOString().slice(0, 10)
     };
+  },
+  methods: {
+    allowedStep: m => m % 5 === 0
   },
   props: {
     roomName: VueTypes.string.isRequired
