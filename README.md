@@ -1,6 +1,6 @@
 # termek sch website
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/7adfdf4b-4a58-4587-a20e-b9f4be559dbb/deploy-status)](https://app.netlify.com/sites/termeksch/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/7adfdf4b-4a58-4587-a20e-b9f4be559dbb/deploy-status)](https://termeksch.netlify.com/)
 
 ## Project setup
 ```
