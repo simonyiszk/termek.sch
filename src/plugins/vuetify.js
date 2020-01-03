@@ -2,10 +2,12 @@ import "material-design-icons-iconfont/dist/material-design-icons.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 import Vue from "vue";
 import Vuetify from "vuetify/lib";
+import DatetimePicker from "vuetify-datetime-picker";
 
 import colors from "vuetify/lib/util/colors";
 
 Vue.use(Vuetify);
+Vue.use(DatetimePicker);
 
 export default new Vuetify({
   theme: {
