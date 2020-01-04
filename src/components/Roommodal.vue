@@ -14,13 +14,14 @@
               <div class="separator">Esemény adatai</div>
             </v-col>
             <v-col class="py-0" cols="12">
-              <v-text-field label="Esemény neve" required></v-text-field>
+              <v-text-field v-model="model.eventName" label="Esemény neve" required></v-text-field>
             </v-col>
             <v-col class="py-0" cols="12">
-              <v-text-field label="Esemény leírása" dense required></v-text-field>
+              <v-text-field v-model="model.eventDesc" label="Esemény leírása" dense required></v-text-field>
             </v-col>
             <v-col class="py-0" cols="12" sm="6">
               <v-datetime-picker
+                v-model="model.eventStart"
                 label="Kezdés időpontja"
                 clearText="Mégse"
                 color="simonyi"
@@ -32,6 +33,7 @@
             </v-col>
             <v-col class="py-0" cols="12" sm="6">
               <v-datetime-picker
+                v-model="model.eventEnd"
                 label="Befejezés időpontja"
                 clearText="Mégse"
                 color="simonyi"
@@ -45,18 +47,18 @@
               <div class="separator">Szervező adatai</div>
             </v-col>
             <v-col class="py-0" cols="12" sm="6">
-              <v-text-field label="Név" required></v-text-field>
+              <v-text-field v-model="model.orgName" label="Név" required></v-text-field>
             </v-col>
             <v-col class="py-0" cols="12" sm="6">
-              <v-text-field label="Telefonszám" required></v-text-field>
+              <v-text-field v-model="model.orgPhone" label="Telefonszám" required></v-text-field>
             </v-col>
             <v-col class="py-0" cols="12">
-              <v-text-field label="Email" required></v-text-field>
+              <v-text-field v-model="model.orgEmail" label="Email" required></v-text-field>
             </v-col>
             <v-col class="py-0" cols="12" sm="6">
               <v-autocomplete
                 :items="getResorts"
-                v-model="resort"
+                v-model="model.orgResort"
                 @input="resortChanged"
                 label="Reszort"
               ></v-autocomplete>
@@ -65,11 +67,12 @@
               <v-autocomplete
                 v-if="isMultipleGroupedResortSelected"
                 :items="getGroups"
-                v-model="group"
+                v-model="model.orgGroup"
                 label="Kör"
               ></v-autocomplete>
               <v-text-field
                 v-else-if="isOtherSelected"
+                v-model="model.orgGroup"
                 label="Egyéb"
                 hint="EMT, QPA, Személyes használat stb."
                 required
@@ -79,20 +82,20 @@
               <div class="separator">Kulcsátvétel</div>
             </v-col>
             <v-col class="py-0" cols="12" sm="6">
-              <v-text-field label="Átvétel ideje" required></v-text-field>
+              <v-text-field v-model="model.keyOut" label="Átvétel ideje" required></v-text-field>
             </v-col>
             <v-col class="py-0" cols="12" sm="6">
-              <v-text-field label="Visszaadás ideje" required></v-text-field>
+              <v-text-field v-model="model.keyRet" label="Visszaadás ideje" required></v-text-field>
             </v-col>
             <v-col class="py-0" cols="12">
-              <v-text-field label="Megjegyzés" dense></v-text-field>
+              <v-text-field v-model="model.comment" label="Megjegyzés" dense></v-text-field>
             </v-col>
           </v-row>
         </v-container>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
+        <v-btn color="blue darken-1" text @click="okHandler">Close</v-btn>
         <v-btn color="blue darken-1" text @click="dialog = false">Save</v-btn>
       </v-card-actions>
     </v-card>
@@ -107,8 +110,20 @@ export default {
   data() {
     return {
       dialog: false,
-      resort: null,
-      group: null,
+      model: {
+        eventName: null,
+        eventDesc: null,
+        eventStart: null,
+        eventEnd: null,
+        orgName: null,
+        orgPhone: null,
+        orgEmail: null,
+        orgResort: null,
+        orgGroup: null,
+        keyOut: null,
+        keyRet: null,
+        comment: null
+      },
       nowDate: new Date().toISOString().slice(0, 10),
       groups: {
         Simonyi: [
@@ -182,7 +197,12 @@ export default {
   methods: {
     allowedStep: m => m % 5 === 0,
     resortChanged() {
-      this.group = null;
+      this.model.orgGroup = null;
+    },
+    okHandler() {
+      // eslint-disable-next-line no-console
+      console.log(this.model);
+      this.dialog = false
     }
   },
   props: {
