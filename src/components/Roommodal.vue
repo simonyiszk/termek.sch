@@ -95,8 +95,8 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text @click="okHandler">Close</v-btn>
-        <v-btn color="blue darken-1" text @click="dialog = false">Save</v-btn>
+        <v-btn color="blue darken-1" text @click="resetHandler">Reset</v-btn>
+        <v-btn color="blue darken-1" text @click="okHandler">Save</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -199,10 +199,16 @@ export default {
     resortChanged() {
       this.model.orgGroup = null;
     },
+    resetModel() {
+      Object.keys(this.model).forEach(k => (this.model[k] = null));
+    },
+    resetHandler() {
+      this.resetModel();
+    },
     okHandler() {
       // eslint-disable-next-line no-console
       console.log(this.model);
-      this.dialog = false
+      this.dialog = false;
     }
   },
   props: {
