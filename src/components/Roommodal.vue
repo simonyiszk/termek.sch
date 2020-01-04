@@ -81,7 +81,56 @@ export default {
   data() {
     return {
       dialog: false,
-      nowDate: new Date().toISOString().slice(0, 10)
+      nowDate: new Date().toISOString().slice(0, 10),
+      groups: {
+        Simonyi: [
+          "AC",
+          "BSS",
+          "HA5KFU",
+          "KIR-Dev",
+          "LEGO",
+          "MGMT",
+          "schdesign",
+          "SEM",
+          "SPOT"
+        ],
+        Bulis: [
+          "Dezső Buli",
+          "Just Dance",
+          "Lanosch",
+          "LevelUp",
+          "Parkett Klub",
+          "Schörpong",
+          "Szakest"
+        ],
+        KOFER: ["KFB", "SziTa", "Sternenschau"],
+        KSZK: ["DevTeam", "HAT", "NETeam", "SecurITeam", "Sysadmin"],
+        Kultúr: [
+          "BBK",
+          "Bűvészkör",
+          "Impulzus",
+          "Játszóház",
+          "La'Place Café",
+          "Local Heroes",
+          "MMMK"
+        ],
+        Sport: ["Szertár", "DSK"],
+        SSSL: ["SSSL"],
+        SZOR: [
+          "Americano",
+          "Dzsájrosz",
+          "Edénykölcsönző",
+          "FoodEx",
+          "Lángosch",
+          "Palacsintázó",
+          "Pizzásch",
+          "Pulcsi és Foltmékör",
+          "Szauna kör",
+          "Vödör",
+          "Vörös Kakas Fogadó",
+          "WTF"
+        ]
+      }
     };
   },
   methods: {
