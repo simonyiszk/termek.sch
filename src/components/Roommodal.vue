@@ -13,15 +13,15 @@
             <v-col cols="12" class="pa-0">
               <div class="separator">Esemény adatai</div>
             </v-col>
-            <v-col cols="12">
-              <v-text-field label="Esemény neve*" dense required></v-text-field>
+            <v-col class="py-0" cols="12">
+              <v-text-field label="Esemény neve" required></v-text-field>
             </v-col>
-            <v-col cols="12">
-              <v-text-field label="Esemény leírása*" dense required></v-text-field>
+            <v-col class="py-0" cols="12">
+              <v-text-field label="Esemény leírása" dense required></v-text-field>
             </v-col>
-            <v-col cols="12" sm="6">
+            <v-col class="py-0" cols="12" sm="6">
               <v-datetime-picker
-                label="Kezdés időpontja*"
+                label="Kezdés időpontja"
                 clearText="Mégse"
                 color="simonyi"
                 dateFormat="yyyy.MM.dd."
@@ -30,9 +30,9 @@
                 required
               ></v-datetime-picker>
             </v-col>
-            <v-col cols="12" sm="6">
+            <v-col class="py-0" cols="12" sm="6">
               <v-datetime-picker
-                label="Befejezés időpontja*"
+                label="Befejezés időpontja"
                 clearText="Mégse"
                 color="simonyi"
                 dateFormat="yyyy.MM.dd."
@@ -44,25 +44,51 @@
             <v-col cols="12" class="pa-0">
               <div class="separator">Szervező adatai</div>
             </v-col>
-            <v-col cols="12" sm="6">
-              <v-text-field label="Név*" required></v-text-field>
+            <v-col class="py-0" cols="12" sm="6">
+              <v-text-field label="Név" required></v-text-field>
             </v-col>
-            <v-col cols="12" sm="6">
-              <v-text-field label="Telefonszám*" required></v-text-field>
+            <v-col class="py-0" cols="12" sm="6">
+              <v-text-field label="Telefonszám" required></v-text-field>
             </v-col>
-            <v-col cols="12">
-              <v-text-field label="Email*" required></v-text-field>
+            <v-col class="py-0" cols="12">
+              <v-text-field label="Email" required></v-text-field>
             </v-col>
-            <v-col cols="12" sm="6">
+            <v-col class="py-0" cols="12" sm="6">
               <v-autocomplete
-                :items="['Skiing', 'Ice hockey', 'Soccer', 'Basketball', 'Hockey', 'Reading', 'Writing', 'Coding', 'Basejump']"
-                label="Interests"
-                multiple
+                :items="getResorts"
+                v-model="resort"
+                @input="resortChanged"
+                label="Reszort"
               ></v-autocomplete>
+            </v-col>
+            <v-col class="py-0" cols="12" sm="6">
+              <v-autocomplete
+                v-if="isMultipleGroupedResortSelected"
+                :items="getGroups"
+                v-model="group"
+                label="Kör"
+              ></v-autocomplete>
+              <v-text-field
+                v-else-if="isOtherSelected"
+                label="Egyéb"
+                hint="EMT, QPA, Személyes használat stb."
+                required
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" class="pa-0">
+              <div class="separator">Kulcsátvétel</div>
+            </v-col>
+            <v-col class="py-0" cols="12" sm="6">
+              <v-text-field label="Átvétel ideje" required></v-text-field>
+            </v-col>
+            <v-col class="py-0" cols="12" sm="6">
+              <v-text-field label="Visszaadás ideje" required></v-text-field>
+            </v-col>
+            <v-col class="py-0" cols="12">
+              <v-text-field label="Megjegyzés" dense></v-text-field>
             </v-col>
           </v-row>
         </v-container>
-        <small>*indicates required field</small>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -81,6 +107,8 @@ export default {
   data() {
     return {
       dialog: false,
+      resort: null,
+      group: null,
       nowDate: new Date().toISOString().slice(0, 10),
       groups: {
         Simonyi: [
@@ -115,7 +143,7 @@ export default {
           "MMMK"
         ],
         Sport: ["Szertár", "DSK"],
-        SSSL: ["SSSL"],
+        SSSL: [],
         SZOR: [
           "Americano",
           "Dzsájrosz",
@@ -129,12 +157,33 @@ export default {
           "Vödör",
           "Vörös Kakas Fogadó",
           "WTF"
-        ]
+        ],
+        Egyéb: null
       }
     };
   },
+  computed: {
+    getResorts() {
+      return Object.keys(this.groups);
+    },
+    isResortSelected() {
+      return this.resort != null;
+    },
+    isOtherSelected() {
+      return this.isResortSelected && this.groups[this.resort] == null;
+    },
+    getGroups() {
+      return this.isResortSelected ? this.groups[this.resort] : null;
+    },
+    isMultipleGroupedResortSelected() {
+      return this.getGroups && this.getGroups.length > 0;
+    }
+  },
   methods: {
-    allowedStep: m => m % 5 === 0
+    allowedStep: m => m % 5 === 0,
+    resortChanged() {
+      this.group = null;
+    }
   },
   props: {
     roomName: VueTypes.string.isRequired
