@@ -20,7 +20,12 @@
 
     <v-card>
       <v-card-text class="px-0 py-0">
-        <v-card dark class="datetime-title px-5 py-5 d-flex justify-space-between" tile color="simonyi">
+        <v-card
+          dark
+          class="datetime-title px-5 py-5 d-flex justify-space-between"
+          tile
+          color="simonyi"
+        >
           <div>{{formattedDate}}</div>
           <div>{{formattedTime}}</div>
         </v-card>
@@ -182,21 +187,23 @@ export default {
   methods: {
     init() {
       if (!this.datetime) {
-        return;
-      }
-      let initDateTime;
-      if (this.datetime instanceof Date) {
-        initDateTime = this.datetime;
-      } else if (
-        typeof this.datetime === "string" ||
-        this.datetime instanceof String
-      ) {
-        // see https://stackoverflow.com/a/9436948
-        initDateTime = parse(this.datetime, this.dateTimeFormat, new Date());
-      }
+        this.date = DEFAULT_DATE;
+        this.time = DEFAULT_TIME;
+      } else {
+        let initDateTime;
+        if (this.datetime instanceof Date) {
+          initDateTime = this.datetime;
+        } else if (
+          typeof this.datetime === "string" ||
+          this.datetime instanceof String
+        ) {
+          // see https://stackoverflow.com/a/9436948
+          initDateTime = parse(this.datetime, this.dateTimeFormat, new Date());
+        }
 
-      this.date = format(initDateTime, DEFAULT_DATE_FORMAT);
-      this.time = format(initDateTime, DEFAULT_TIME_FORMAT);
+        this.date = format(initDateTime, DEFAULT_DATE_FORMAT);
+        this.time = format(initDateTime, DEFAULT_TIME_FORMAT);
+      }
     },
     okHandler() {
       if (this.dateSelected) {
