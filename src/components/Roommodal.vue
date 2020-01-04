@@ -10,8 +10,14 @@
       <v-card-text>
         <v-container>
           <v-row>
+            <v-col cols="12" class="pa-0">
+              <div class="separator">Esemény adatai</div>
+            </v-col>
             <v-col cols="12">
-              <v-text-field label="Esemény neve*" required></v-text-field>
+              <v-text-field label="Esemény neve*" dense required></v-text-field>
+            </v-col>
+            <v-col cols="12">
+              <v-text-field label="Esemény leírása*" dense required></v-text-field>
             </v-col>
             <v-col cols="12" sm="6">
               <v-datetime-picker
@@ -25,21 +31,27 @@
               ></v-datetime-picker>
             </v-col>
             <v-col cols="12" sm="6">
-              <v-text-field
-                label="Legal last name*"
-                hint="example of persistent helper text"
-                persistent-hint
+              <v-datetime-picker
+                label="Befejezés időpontja*"
+                clearText="Mégse"
+                color="simonyi"
+                dateFormat="yyyy.MM.dd."
+                :datePickerProps="{'color': 'simonyi', 'no-title': true, 'first-day-of-week': '1', 'locale': 'hu-HU', 'scrollable': true}"
+                :timePickerProps="{'color': 'simonyi', 'no-title': true, 'format': '24hr', 'allowed-minutes': allowedStep}"
                 required
-              ></v-text-field>
+              ></v-datetime-picker>
+            </v-col>
+            <v-col cols="12" class="pa-0">
+              <div class="separator">Szervező adatai</div>
+            </v-col>
+            <v-col cols="12" sm="6">
+              <v-text-field label="Név*" required></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="6">
+              <v-text-field label="Telefonszám*" required></v-text-field>
             </v-col>
             <v-col cols="12">
               <v-text-field label="Email*" required></v-text-field>
-            </v-col>
-            <v-col cols="12">
-              <v-text-field label="Password*" type="password" required></v-text-field>
-            </v-col>
-            <v-col cols="12" sm="6">
-              <v-select :items="['0-17', '18-29', '30-54', '54+']" label="Age*" required></v-select>
             </v-col>
             <v-col cols="12" sm="6">
               <v-autocomplete
@@ -80,3 +92,11 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.separator {
+  font-size: 20px;
+  font-weight: bold;
+  border-bottom: 2px solid;
+}
+</style>
