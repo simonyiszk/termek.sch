@@ -160,18 +160,30 @@ export default {
         return !!v || "Kötelező kitölteni";
       },
       rules: {
-        eventName: null,
-        eventDesc: null,
-        eventStart: null,
-        eventEnd: null,
-        orgName: null,
-        orgPhone: null,
-        orgEmail: null,
-        orgResort: null,
-        orgGroup: null,
-        keyOut: null,
-        keyRet: null,
-        comment: null
+        eventName: [v => !!v || "Kötelező kitölteni"],
+        eventDesc: [v => !!v || "Kötelező kitölteni"],
+        eventStart: [() => true],
+        eventEnd: [() => true],
+        orgName: [v => !!v || "Kötelező kitölteni"],
+        orgPhone: [
+          v => !!v || "Kötelező kitölteni",
+          v => {
+            const pattern = /^(\+)?[0-9]{11}$/;
+            return pattern.test(v) || "Hibás formátum";
+          }
+        ],
+        orgEmail: [
+          v => !!v || "Kötelező kitölteni",
+          v => {
+            const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return pattern.test(v) || "Hibás formátum";
+          }
+        ],
+        orgResort: [v => !!v || "Kötelező kitölteni"],
+        orgGroup: [v => !!v || "Kötelező kitölteni"],
+        keyOut: [v => !!v || "Kötelező kitölteni"],
+        keyRet: [v => !!v || "Kötelező kitölteni"],
+        comment: [() => true]
       },
       groups: {
         Simonyi: [
