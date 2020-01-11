@@ -134,6 +134,9 @@ export default {
     },
     timePickerProps: {
       type: Object
+    },
+    rules: {
+      type: Array
     }
   },
   data() {
