@@ -242,13 +242,13 @@ export default {
       return Object.keys(this.groups);
     },
     isResortSelected() {
-      return this.resort != null;
+      return this.model.orgResort != null;
     },
     isOtherSelected() {
-      return this.isResortSelected && this.groups[this.resort] == null;
+      return this.isResortSelected && this.groups[this.model.orgResort] == null;
     },
     getGroups() {
-      return this.isResortSelected ? this.groups[this.resort] : null;
+      return this.isResortSelected ? this.groups[this.model.orgResort] : null;
     },
     isMultipleGroupedResortSelected() {
       return this.getGroups && this.getGroups.length > 0;
