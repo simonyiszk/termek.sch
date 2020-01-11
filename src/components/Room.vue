@@ -11,11 +11,11 @@
     <v-tabs v-model="tab" :centered="centered" :grow="grow" color="simonyi">
       <v-tabs-slider></v-tabs-slider>
 
-      <v-tab v-for="i in tabs" :key="i.name" :href="`#${i.name}`">{{ i.name }}</v-tab>
+      <v-tab v-for="i in tabNames" :key="i" :href="`#${i}`">{{ i }}</v-tab>
 
-      <v-tab-item v-for="i in tabs" :key="i.name" :value="`${i.name}`">
+      <v-tab-item v-for="i in tabNames" :key="i" :value="`${i}`">
         <v-card flat tile>
-          <v-card-text>{{ i.name }}</v-card-text>
+          <v-card-text>{{ i }}</v-card-text>
         </v-card>
       </v-tab-item>
     </v-tabs>
@@ -38,21 +38,66 @@ export default {
       tab: "102",
       centered: true,
       grow: true,
-      tabs: [
-        {
-          name: "102"
+      tabs: {
+        "102": {
+          calLink:
+            "simonyi.bme.hu_mg3b398rhn8p4kg4rmq9tap7bs@group.calendar.google.com",
+          data: []
         },
-        {
-          name: "103"
+        "103": {
+          calLink:
+            "simonyi.bme.hu_plp5ph2fhc3dl3ff1g7t766nnc@group.calendar.google.com",
+          data: []
         },
-        {
-          name: "1319"
+        "1319": {
+          calLink:
+            "simonyi.bme.hu_0odiigi3skm33p3cgm44d36534@group.calendar.google.com",
+          data: []
         },
-        {
-          name: "1320"
+        "1320": {
+          calLink:
+            "simonyi.bme.hu_us5tsrahsttruvlss4sq831hp0@group.calendar.google.com",
+          data: []
         }
-      ]
+      },
+      rootURL:
+        "https://www.googleapis.com/calendar/v3/calendars/%s/events?key=%s&singleEvents=true&orderBy=starttime&maxResults=2000",
+      apiKey: "X"
     };
+  },
+  beforeMount() {
+    let links = [];
+    for (let i in this.tabs) {
+      links.push(this.parse(this.rootURL, this.tabs[i].calLink, this.apiKey));
+    }
+    Promise.all(links.map(l => fetch(l)))
+      .then(r => Promise.all(r.map(v => v.json())))
+      .then(e => {
+        // eslint-disable-next-line no-console
+        console.log(e);
+        return e;
+      })
+      .then(e => {
+        e.forEach(v => {
+          const roomName = v.summary.split(" ")[1];
+          this.tabs[roomName].data = v.items;
+        });
+      })
+      .then(() => {
+        // eslint-disable-next-line no-console
+        console.log(this.tabs);
+      });
+  },
+  computed: {
+    tabNames() {
+      return Object.keys(this.tabs);
+    }
+  },
+  methods: {
+    parse(str, ...args) {
+      let i = 0;
+      return str.replace(/%s/g, () => args[i++]);
+    }
   }
 };
 </script>
