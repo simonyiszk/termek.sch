@@ -14,14 +14,26 @@
               <div class="separator">Esemény adatai</div>
             </v-col>
             <v-col class="py-0" cols="12">
-              <v-text-field v-model="model.eventName" label="Esemény neve" required></v-text-field>
+              <v-text-field
+                v-model="model.eventName"
+                :rules="rules.eventName"
+                label="Esemény neve"
+                required
+              ></v-text-field>
             </v-col>
             <v-col class="py-0" cols="12">
-              <v-text-field v-model="model.eventDesc" label="Esemény leírása" dense required></v-text-field>
+              <v-text-field
+                v-model="model.eventDesc"
+                :rules="rules.eventDesc"
+                label="Esemény leírása"
+                dense
+                required
+              ></v-text-field>
             </v-col>
             <v-col class="py-0" cols="12" sm="6">
               <v-datetime-picker
                 v-model="model.eventStart"
+                :rules="rules.eventStart"
                 label="Kezdés időpontja"
                 clearText="Mégse"
                 color="simonyi"
@@ -34,6 +46,7 @@
             <v-col class="py-0" cols="12" sm="6">
               <v-datetime-picker
                 v-model="model.eventEnd"
+                :rules="rules.eventEnd"
                 label="Befejezés időpontja"
                 clearText="Mégse"
                 color="simonyi"
@@ -47,18 +60,24 @@
               <div class="separator">Szervező adatai</div>
             </v-col>
             <v-col class="py-0" cols="12" sm="6">
-              <v-text-field v-model="model.orgName" label="Név" required></v-text-field>
+              <v-text-field v-model="model.orgName" :rules="rules.orgName" label="Név" required></v-text-field>
             </v-col>
             <v-col class="py-0" cols="12" sm="6">
-              <v-text-field v-model="model.orgPhone" label="Telefonszám" required></v-text-field>
+              <v-text-field
+                v-model="model.orgPhone"
+                :rules="rules.orgPhone"
+                label="Telefonszám"
+                required
+              ></v-text-field>
             </v-col>
             <v-col class="py-0" cols="12">
-              <v-text-field v-model="model.orgEmail" label="Email" required></v-text-field>
+              <v-text-field v-model="model.orgEmail" :rules="rules.orgEmail" label="Email" required></v-text-field>
             </v-col>
             <v-col class="py-0" cols="12" sm="6">
               <v-autocomplete
                 :items="getResorts"
                 v-model="model.orgResort"
+                :rules="rules.orgResort"
                 @input="resortChanged"
                 label="Reszort"
               ></v-autocomplete>
@@ -68,11 +87,13 @@
                 v-if="isMultipleGroupedResortSelected"
                 :items="getGroups"
                 v-model="model.orgGroup"
+                :rules="rules.orgGroup"
                 label="Kör"
               ></v-autocomplete>
               <v-text-field
                 v-else-if="isOtherSelected"
                 v-model="model.orgGroup"
+                :rules="rules.orgGroup"
                 label="Egyéb"
                 hint="EMT, QPA, Személyes használat stb."
                 required
@@ -82,13 +103,23 @@
               <div class="separator">Kulcsátvétel</div>
             </v-col>
             <v-col class="py-0" cols="12" sm="6">
-              <v-text-field v-model="model.keyOut" label="Átvétel ideje" required></v-text-field>
+              <v-text-field
+                v-model="model.keyOut"
+                :rules="rules.keyOut"
+                label="Átvétel ideje"
+                required
+              ></v-text-field>
             </v-col>
             <v-col class="py-0" cols="12" sm="6">
-              <v-text-field v-model="model.keyRet" label="Visszaadás ideje" required></v-text-field>
+              <v-text-field
+                v-model="model.keyRet"
+                :rules="rules.keyRet"
+                label="Visszaadás ideje"
+                required
+              ></v-text-field>
             </v-col>
             <v-col class="py-0" cols="12">
-              <v-text-field v-model="model.comment" label="Megjegyzés" dense></v-text-field>
+              <v-text-field v-model="model.comment" :rules="rules.comment" label="Megjegyzés" dense></v-text-field>
             </v-col>
           </v-row>
         </v-container>
@@ -125,6 +156,23 @@ export default {
         comment: null
       },
       nowDate: new Date().toISOString().slice(0, 10),
+      notEmptyRule(v) {
+        return !!v || "Kötelező kitölteni";
+      },
+      rules: {
+        eventName: null,
+        eventDesc: null,
+        eventStart: null,
+        eventEnd: null,
+        orgName: null,
+        orgPhone: null,
+        orgEmail: null,
+        orgResort: null,
+        orgGroup: null,
+        keyOut: null,
+        keyRet: null,
+        comment: null
+      },
       groups: {
         Simonyi: [
           "AC",
