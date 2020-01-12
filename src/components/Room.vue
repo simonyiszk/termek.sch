@@ -44,7 +44,7 @@
               <v-calendar
                 ref="calendar"
                 v-model="focus"
-                color="primary"
+                color="simonyi"
                 :events="getEvents"
                 :event-color="getEventColor"
                 :now="today"
@@ -62,7 +62,7 @@
                 offset-x
               >
                 <v-card color="grey lighten-4" min-width="350px" flat>
-                  <v-toolbar :color="selectedEvent.color" dark>
+                  <v-toolbar color="simonyi" dark>
                     <v-btn icon>
                       <v-icon>mdi-pencil</v-icon>
                     </v-btn>
@@ -131,7 +131,7 @@ export default {
       },
       rootURL:
         "https://www.googleapis.com/calendar/v3/calendars/%s/events?key=%s&singleEvents=true&orderBy=starttime&maxResults=2000",
-      apiKey: "X",
+      apiKey: "AIzaSyCXWIUkCfcgBT7WWIfJ0Fc-OugT9opo9vI",
 
       focus: "",
       type: "month",
@@ -193,27 +193,25 @@ export default {
       });
     },
     title() {
-      const { start, end } = this;
-      if (!start || !end) {
+      if (!this.start || !this.end) {
         return "";
       }
 
-      const startMonth = this.monthFormatter(start);
-      const endMonth = this.monthFormatter(end);
+      const startMonth = this.monthFormatter(this.start);
+      const endMonth = this.monthFormatter(this.end);
       const suffixMonth = startMonth === endMonth ? "" : endMonth;
 
-      const startYear = start.year;
-      const endYear = end.year;
+      const startYear = this.start.year;
+      const endYear = this.end.year;
       const suffixYear = startYear === endYear ? "" : endYear;
 
-      const startDay = start.day;
-      const endDay = end.day;
+      const startDay = this.start.day;
+      const endDay = this.end.day;
 
       switch (this.type) {
         case "month":
           return `${startMonth} ${startYear}`;
         case "week":
-        case "4day":
           return `${startMonth} ${startDay} ${startYear} - ${suffixMonth} ${endDay} ${suffixYear}`;
         case "day":
           return `${startMonth} ${startDay} ${startYear}`;
@@ -273,8 +271,12 @@ export default {
       nativeEvent.stopPropagation();
     },
     updateRange({ start, end }) {
-      this.start = start;
-      this.end = end;
+      if (!this.start || this.start.date !== start.date) {
+        this.start = start;
+      }
+      if (!this.end || this.end.date !== end.date) {
+        this.end = end;
+      }
     }
   }
 };
