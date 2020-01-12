@@ -27,9 +27,6 @@
                     </v-btn>
                   </template>
                   <v-list>
-                    <v-list-item @click="type = 'day'">
-                      <v-list-item-title>Day</v-list-item-title>
-                    </v-list-item>
                     <v-list-item @click="type = 'week'">
                       <v-list-item-title>Week</v-list-item-title>
                     </v-list-item>
@@ -51,8 +48,7 @@
                 :type="type"
                 :weekdays="[1,2,3,4,5,6,0]"
                 @click:event="showEvent"
-                @click:more="viewDay"
-                @click:date="viewDay"
+                @click:more="viewWeek"
                 @change="updateRange"
               ></v-calendar>
               <v-menu
@@ -251,9 +247,9 @@ export default {
       const r = actual.toISOString().slice(0, 10);
       return r;
     },
-    viewDay({ date }) {
+    viewWeek({ date }) {
       this.focus = date;
-      this.type = "day";
+      this.type = "week";
     },
     getEventColor() {
       return "blue";
