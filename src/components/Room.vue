@@ -47,6 +47,7 @@
                 :now="today"
                 :type="type"
                 :weekdays="[1,2,3,4,5,6,0]"
+                :eventName="eventName"
                 @click:event="showEvent"
                 @click:more="viewWeek"
                 @change="updateRange"
@@ -94,6 +95,7 @@
 
 <script>
 import Roommodal from "./Roommodal";
+import { escapeHTML } from "vuetify/lib/util/helpers";
 
 export default {
   name: "Room",
@@ -222,6 +224,13 @@ export default {
         timeZone: "UTC",
         month: "long"
       });
+    },
+    timeFormatter() {
+      return this.$refs.calendar[0].getFormatter({
+        timeZone: "UTC",
+        hour: "numeric",
+        minute: "numeric"
+      });
     }
   },
   methods: {
@@ -286,6 +295,22 @@ export default {
       if (!this.end || this.end.date !== end.date) {
         this.end = end;
       }
+    },
+    eventName(event, timedEvent) {
+      const name = escapeHTML(event.input["name"]);
+
+      if (event.start.hasTime) {
+        if (timedEvent) {
+          const start = this.timeFormatter(event.start);
+          const end = this.timeFormatter(event.end);
+          return `<strong>${name}</strong><br>${start} - ${end}`;
+        } else {
+          const time = this.timeFormatter(event.start);
+          return `<strong>${time}</strong> ${name}`;
+        }
+      }
+
+      return name;
     }
   }
 };
