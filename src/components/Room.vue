@@ -203,18 +203,18 @@ export default {
 
       const startYear = this.start.year;
       const endYear = this.end.year;
-      const suffixYear = startYear === endYear ? "" : endYear;
+      const suffixYear = startYear === endYear ? "" : endYear+".";
 
       const startDay = this.start.day;
       const endDay = this.end.day;
 
       switch (this.type) {
         case "month":
-          return `${startMonth} ${startYear}`;
+          return `${startYear}. ${startMonth}`;
         case "week":
-          return `${startMonth} ${startDay} ${startYear} - ${suffixMonth} ${endDay} ${suffixYear}`;
+          return `${startYear}. ${startMonth} ${startDay}. - ${suffixYear} ${suffixMonth} ${endDay}.`;
         case "day":
-          return `${startMonth} ${startDay} ${startYear}`;
+          return `${startYear}. ${startMonth} ${startDay}.`;
       }
       return "";
     },
