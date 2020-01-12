@@ -172,7 +172,7 @@ export default {
       .then(e => {
         e.forEach(v => {
           const roomName = v.summary.split(" ")[1];
-          this.tabs[roomName].data = v.items;
+          this.tabs[roomName].data = v.items.map(d => d.end.dateTime ? d : {...d, end: {...d.end, date: this.dayOffsetFix(d.end.date)}});
         });
       });
   },
@@ -184,13 +184,16 @@ export default {
       return Object.keys(this.tabs);
     },
     getEvents() {
-      return this.tabs[this.tab].data.map(e => {
+      const r = this.tabs[this.tab].data.map(e => {
         return {
           name: e.summary,
           start: this.convertDatetime(e.start),
           end: this.convertDatetime(e.end)
         };
       });
+      // eslint-disable-next-line no-console
+      console.log(r);
+      return r;
     },
     title() {
       if (!this.start || !this.end) {
@@ -203,7 +206,7 @@ export default {
 
       const startYear = this.start.year;
       const endYear = this.end.year;
-      const suffixYear = startYear === endYear ? "" : endYear+".";
+      const suffixYear = startYear === endYear ? "" : endYear + ".";
 
       const startDay = this.start.day;
       const endDay = this.end.day;
@@ -237,6 +240,12 @@ export default {
       } else {
         return d.date;
       }
+    },
+    dayOffsetFix(d) {
+      let actual = new Date(d);
+      actual.setDate(actual.getDate() - 1);
+      const r = actual.toISOString().slice(0, 10);
+      return r;
     },
     viewDay({ date }) {
       this.focus = date;
