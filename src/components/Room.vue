@@ -172,7 +172,13 @@ export default {
       .then(e => {
         e.forEach(v => {
           const roomName = v.summary.split(" ")[1];
-          this.tabs[roomName].data = v.items.map(d => d.end.dateTime ? d : {...d, end: {...d.end, date: this.dayOffsetFix(d.end.date)}});
+          this.tabs[roomName].data = v.items.map(d => {
+            return {
+              name: d.summary,
+              start: this.convertDatetime(d.start),
+              end: this.convertDatetime(d.end, true)
+            };
+          });
         });
       });
   },
@@ -184,13 +190,7 @@ export default {
       return Object.keys(this.tabs);
     },
     getEvents() {
-      const r = this.tabs[this.tab].data.map(e => {
-        return {
-          name: e.summary,
-          start: this.convertDatetime(e.start),
-          end: this.convertDatetime(e.end)
-        };
-      });
+      const r = this.tabs[this.tab].data;
       // eslint-disable-next-line no-console
       console.log(r);
       return r;
@@ -233,12 +233,16 @@ export default {
       let i = 0;
       return str.replace(/%s/g, () => args[i++]);
     },
-    convertDatetime(d) {
+    convertDatetime(d, reduce = false) {
       if (d.dateTime) {
         const tsplit = d.dateTime.split("T");
         return tsplit[0] + " " + tsplit[1].split("+")[0];
       } else {
-        return d.date;
+        if (!reduce) {
+          return d.date;
+        } else {
+          return this.dayOffsetFix(d.date);
+        }
       }
     },
     dayOffsetFix(d) {
