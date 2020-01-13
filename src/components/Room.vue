@@ -59,7 +59,7 @@
                 offset-x
               >
                 <v-card color="grey lighten-4" min-width="350px" flat>
-                  <v-toolbar color="simonyi" dark>
+                  <v-toolbar color="simonyi" dark elevation="0">
                     <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
                   </v-toolbar>
                   <v-card-text>
