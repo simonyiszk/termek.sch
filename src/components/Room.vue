@@ -60,24 +60,11 @@
               >
                 <v-card color="grey lighten-4" min-width="350px" flat>
                   <v-toolbar color="simonyi" dark>
-                    <v-btn icon>
-                      <v-icon>mdi-pencil</v-icon>
-                    </v-btn>
                     <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
-                    <v-spacer></v-spacer>
-                    <v-btn icon>
-                      <v-icon>mdi-heart</v-icon>
-                    </v-btn>
-                    <v-btn icon>
-                      <v-icon>mdi-dots-vertical</v-icon>
-                    </v-btn>
                   </v-toolbar>
                   <v-card-text>
-                    <span v-html="selectedEvent.details"></span>
+                    <span v-html="selectedEvent.description"></span>
                   </v-card-text>
-                  <v-card-actions>
-                    <v-btn text color="secondary" @click="selectedOpen = false">Cancel</v-btn>
-                  </v-card-actions>
                 </v-card>
               </v-menu>
             </v-sheet>
@@ -95,7 +82,6 @@
 
 <script>
 import Roommodal from "./Roommodal";
-import { escapeHTML } from "vuetify/lib/util/helpers";
 
 export default {
   name: "Room",
@@ -174,7 +160,8 @@ export default {
             return {
               name: d.summary,
               start: this.convertDatetime(d.start),
-              end: this.convertDatetime(d.end, true)
+              end: this.convertDatetime(d.end, true),
+              description: this.escapeHTML(d.description)
             };
           });
         });
@@ -285,7 +272,8 @@ export default {
       } else {
         open();
       }
-
+      // eslint-disable-next-line no-console
+      console.log(event);
       nativeEvent.stopPropagation();
     },
     updateRange({ start, end }) {
@@ -297,7 +285,7 @@ export default {
       }
     },
     eventName(event, timedEvent) {
-      const name = escapeHTML(event.input["name"]);
+      const name = this.escapeHTML(event.input["name"]);
 
       if (event.start.hasTime) {
         if (timedEvent) {
@@ -311,6 +299,25 @@ export default {
       }
 
       return name;
+    },
+    escapeHTML(str) {
+      if (!str) return str;
+
+      const tagsToReplace = {
+        /*"&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",*/
+        "\r": "<br>",
+        "\n": "<br>",
+        "\r\n": "</br>"
+      };
+      const keys = Object.keys(tagsToReplace)
+        .reduce((acc, curr) => {
+          return acc + curr + "|";
+        }, "")
+        .slice(0, -1);
+      const regexp = new RegExp(`(${keys})`, "g");
+      return str.replace(regexp, tag => tagsToReplace[tag] || tag);
     }
   },
   watch: {
