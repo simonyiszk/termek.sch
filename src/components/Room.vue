@@ -312,6 +312,11 @@ export default {
 
       return name;
     }
+  },
+  watch: {
+    tab() {
+      setTimeout(() => this.$refs.calendar[0].updateEventVisibility(), 10);
+    }
   }
 };
 </script>
