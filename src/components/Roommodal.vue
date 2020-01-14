@@ -8,121 +8,133 @@
         <span class="headline">Teremfoglalás - {{roomName}}</span>
       </v-card-title>
       <v-card-text>
-        <v-container>
-          <v-row>
-            <v-col cols="12" class="pa-0">
-              <div class="separator">Esemény adatai</div>
-            </v-col>
-            <v-col class="py-0" cols="12">
-              <v-text-field
-                v-model="model.eventName"
-                :rules="rules.eventName"
-                label="Esemény neve"
-                required
-              ></v-text-field>
-            </v-col>
-            <v-col class="py-0" cols="12">
-              <v-text-field
-                v-model="model.eventDesc"
-                :rules="rules.eventDesc"
-                label="Esemény leírása"
-                dense
-                required
-              ></v-text-field>
-            </v-col>
-            <v-col class="py-0" cols="12" sm="6">
-              <v-datetime-picker
-                v-model="model.eventStart"
-                :rules="rules.eventStart"
-                label="Kezdés időpontja"
-                clearText="Mégse"
-                color="simonyi"
-                dateFormat="yyyy.MM.dd."
-                :datePickerProps="{'color': 'simonyi', 'no-title': true, 'first-day-of-week': '1', 'locale': 'hu-HU', 'scrollable': true}"
-                :timePickerProps="{'color': 'simonyi', 'no-title': true, 'format': '24hr', 'allowed-minutes': allowedStep}"
-                required
-              ></v-datetime-picker>
-            </v-col>
-            <v-col class="py-0" cols="12" sm="6">
-              <v-datetime-picker
-                v-model="model.eventEnd"
-                :rules="rules.eventEnd"
-                label="Befejezés időpontja"
-                clearText="Mégse"
-                color="simonyi"
-                dateFormat="yyyy.MM.dd."
-                :datePickerProps="{'color': 'simonyi', 'no-title': true, 'first-day-of-week': '1', 'locale': 'hu-HU', 'scrollable': true}"
-                :timePickerProps="{'color': 'simonyi', 'no-title': true, 'format': '24hr', 'allowed-minutes': allowedStep}"
-                required
-              ></v-datetime-picker>
-            </v-col>
-            <v-col cols="12" class="pa-0">
-              <div class="separator">Szervező adatai</div>
-            </v-col>
-            <v-col class="py-0" cols="12" sm="6">
-              <v-text-field v-model="model.orgName" :rules="rules.orgName" label="Név" required></v-text-field>
-            </v-col>
-            <v-col class="py-0" cols="12" sm="6">
-              <v-text-field
-                v-model="model.orgPhone"
-                :rules="rules.orgPhone"
-                label="Telefonszám"
-                required
-              ></v-text-field>
-            </v-col>
-            <v-col class="py-0" cols="12">
-              <v-text-field v-model="model.orgEmail" :rules="rules.orgEmail" label="Email" required></v-text-field>
-            </v-col>
-            <v-col class="py-0" cols="12" sm="6">
-              <v-autocomplete
-                :items="getResorts"
-                v-model="model.orgResort"
-                :rules="rules.orgResort"
-                @input="resortChanged"
-                label="Reszort"
-              ></v-autocomplete>
-            </v-col>
-            <v-col class="py-0" cols="12" sm="6">
-              <v-autocomplete
-                v-if="isMultipleGroupedResortSelected"
-                :items="getGroups"
-                v-model="model.orgGroup"
-                :rules="rules.orgGroup"
-                label="Kör"
-              ></v-autocomplete>
-              <v-text-field
-                v-else-if="isOtherSelected"
-                v-model="model.orgGroup"
-                :rules="rules.orgGroup"
-                label="Egyéb"
-                hint="EMT, QPA, Személyes használat stb."
-                required
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" class="pa-0">
-              <div class="separator">Kulcsátvétel</div>
-            </v-col>
-            <v-col class="py-0" cols="12" sm="6">
-              <v-text-field
-                v-model="model.keyOut"
-                :rules="rules.keyOut"
-                label="Átvétel ideje"
-                required
-              ></v-text-field>
-            </v-col>
-            <v-col class="py-0" cols="12" sm="6">
-              <v-text-field
-                v-model="model.keyRet"
-                :rules="rules.keyRet"
-                label="Visszaadás ideje"
-                required
-              ></v-text-field>
-            </v-col>
-            <v-col class="py-0" cols="12">
-              <v-text-field v-model="model.comment" :rules="rules.comment" label="Megjegyzés" dense></v-text-field>
-            </v-col>
-          </v-row>
-        </v-container>
+        <v-form ref="form" v-model="valid" lazy-validation>
+          <v-container>
+            <v-row>
+              <v-col cols="12" class="pa-0">
+                <div class="separator">Esemény adatai</div>
+              </v-col>
+              <v-col class="py-0" cols="12">
+                <v-text-field
+                  v-model="model.eventName"
+                  :rules="rules.eventName"
+                  label="Esemény neve"
+                  required
+                ></v-text-field>
+              </v-col>
+              <v-col class="py-0" cols="12">
+                <v-text-field
+                  v-model="model.eventDesc"
+                  :rules="rules.eventDesc"
+                  label="Esemény leírása"
+                  dense
+                  required
+                ></v-text-field>
+              </v-col>
+              <v-col class="py-0" cols="12" sm="6">
+                <v-datetime-picker
+                  v-model="model.eventStart"
+                  :rules="rules.eventStart"
+                  label="Kezdés időpontja"
+                  clearText="Mégse"
+                  color="simonyi"
+                  dateFormat="yyyy.MM.dd."
+                  :datePickerProps="{'color': 'simonyi', 'no-title': true, 'first-day-of-week': '1', 'locale': 'hu-HU', 'scrollable': true}"
+                  :timePickerProps="{'color': 'simonyi', 'no-title': true, 'format': '24hr', 'allowed-minutes': allowedStep}"
+                  required
+                ></v-datetime-picker>
+              </v-col>
+              <v-col class="py-0" cols="12" sm="6">
+                <v-datetime-picker
+                  v-model="model.eventEnd"
+                  :rules="rules.eventEnd"
+                  label="Befejezés időpontja"
+                  clearText="Mégse"
+                  color="simonyi"
+                  dateFormat="yyyy.MM.dd."
+                  :datePickerProps="{'color': 'simonyi', 'no-title': true, 'first-day-of-week': '1', 'locale': 'hu-HU', 'scrollable': true}"
+                  :timePickerProps="{'color': 'simonyi', 'no-title': true, 'format': '24hr', 'allowed-minutes': allowedStep}"
+                  required
+                ></v-datetime-picker>
+              </v-col>
+              <v-col cols="12" class="pa-0">
+                <div class="separator">Szervező adatai</div>
+              </v-col>
+              <v-col class="py-0" cols="12" sm="6">
+                <v-text-field v-model="model.orgName" :rules="rules.orgName" label="Név" required></v-text-field>
+              </v-col>
+              <v-col class="py-0" cols="12" sm="6">
+                <v-text-field
+                  v-model="model.orgPhone"
+                  :rules="rules.orgPhone"
+                  label="Telefonszám"
+                  required
+                ></v-text-field>
+              </v-col>
+              <v-col class="py-0" cols="12">
+                <v-text-field
+                  v-model="model.orgEmail"
+                  :rules="rules.orgEmail"
+                  label="Email"
+                  required
+                ></v-text-field>
+              </v-col>
+              <v-col class="py-0" cols="12" sm="6">
+                <v-autocomplete
+                  :items="getResorts"
+                  v-model="model.orgResort"
+                  :rules="rules.orgResort"
+                  @input="resortChanged"
+                  label="Reszort"
+                ></v-autocomplete>
+              </v-col>
+              <v-col class="py-0" cols="12" sm="6">
+                <v-autocomplete
+                  v-if="isMultipleGroupedResortSelected"
+                  :items="getGroups"
+                  v-model="model.orgGroup"
+                  :rules="rules.orgGroup"
+                  label="Kör"
+                ></v-autocomplete>
+                <v-text-field
+                  v-else-if="isOtherSelected"
+                  v-model="model.orgGroup"
+                  :rules="rules.orgGroup"
+                  label="Egyéb"
+                  hint="EMT, QPA, Személyes használat stb."
+                  required
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" class="pa-0">
+                <div class="separator">Kulcsátvétel</div>
+              </v-col>
+              <v-col class="py-0" cols="12" sm="6">
+                <v-text-field
+                  v-model="model.keyOut"
+                  :rules="rules.keyOut"
+                  label="Átvétel ideje"
+                  required
+                ></v-text-field>
+              </v-col>
+              <v-col class="py-0" cols="12" sm="6">
+                <v-text-field
+                  v-model="model.keyRet"
+                  :rules="rules.keyRet"
+                  label="Visszaadás ideje"
+                  required
+                ></v-text-field>
+              </v-col>
+              <v-col class="py-0" cols="12">
+                <v-text-field
+                  v-model="model.comment"
+                  :rules="rules.comment"
+                  label="Megjegyzés"
+                  dense
+                ></v-text-field>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-form>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -141,6 +153,7 @@ export default {
   data() {
     return {
       dialog: false,
+      valid: true,
       model: {
         eventName: null,
         eventDesc: null,
@@ -263,6 +276,7 @@ export default {
       Object.keys(this.model).forEach(k => (this.model[k] = null));
     },
     resetHandler() {
+      this.$refs.form.resetValidation();
       this.resetModel();
     },
     okHandler() {
