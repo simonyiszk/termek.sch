@@ -63,7 +63,12 @@
                     <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
                   </v-toolbar>
                   <v-card-text>
-                    <span v-html="selectedEvent.description"></span>
+                    <div>
+                      <strong>{{selectedEventTitle}}</strong>
+                    </div>
+                    <div class="mt-4" v-if="selectedEvent.description">
+                      <span v-html="selectedEvent.description"></span>
+                    </div>
                   </v-card-text>
                 </v-card>
               </v-menu>
@@ -206,6 +211,46 @@ export default {
       }
       return "";
     },
+    selectedEventTitle() {
+      const startDate = new Date(this.selectedEvent.start);
+      const endDate = new Date(this.selectedEvent.end);
+
+      const startYear = startDate.getFullYear();
+      const endYear = endDate.getFullYear();
+      const hideYear = startYear === endYear;
+
+      const startMonth = startDate.toLocaleString("default", { month: "long" });
+      const endMonth = endDate.toLocaleString("default", { month: "long" });
+
+      const startDay = startDate.getDate();
+      const endDay = endDate.getDate();
+      const hideMonthDay = startDay === endDay;
+
+      const startHour = startDate
+        .getHours()
+        .toString()
+        .padStart(2, "0");
+      const endHour = endDate
+        .getHours()
+        .toString()
+        .padStart(2, "0");
+      const startMinute = startDate
+        .getMinutes()
+        .toString()
+        .padStart(2, "0");
+      const endMinute = endDate
+        .getMinutes()
+        .toString()
+        .padStart(2, "0");
+
+      return `${
+        hideYear ? "" : endYear + "."
+      } ${startMonth} ${startDay}. ${startHour}:${startMinute} - ${
+        hideYear ? "" : endYear + "."
+      } ${hideMonthDay ? "" : endMonth + "."} ${
+        hideMonthDay ? "" : endDay + "."
+      } ${endHour}:${endMinute}`;
+    },
     monthFormatter() {
       return this.$refs.calendar[0].getFormatter({
         timeZone: "UTC",
@@ -301,7 +346,7 @@ export default {
       return name;
     },
     escapeHTML(str) {
-      if (!str) return str;
+      if (!str) return "";
 
       const tagsToReplace = {
         /*"&": "&amp;",
