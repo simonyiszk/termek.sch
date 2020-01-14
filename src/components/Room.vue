@@ -293,7 +293,7 @@ export default {
       this.type = "week";
     },
     getEventColor() {
-      return "blue";
+      return "simonyi";
     },
     setToday() {
       this.focus = this.today;
