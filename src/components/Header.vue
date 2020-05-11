@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-toolbar app color="gray" dark fixed elevation="0">
+    <v-app-bar app color="gray" dark fixed elevation="0">
       <div class="d-flex align-center">
         <v-img
           alt="Vuetify Logo"
@@ -33,7 +33,7 @@
           </v-list>
         </v-menu>
       </div>
-    </v-toolbar>
+    </v-app-bar>
   </div>
 </template>
 
